@@ -2,13 +2,14 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import re
 
-url = 'john_doerr_why_the_secret_to_success_is_setting_the_right_goals'#input("URL: ")
+url = input("URL: ")
 result = []
 
 link_compiler = re.compile('[a-z_ ]{7,}')
 line_compiler = re.compile('[\t\n][0-9a-z A-Z\',.?!@\-\'\"():]+')
 
 topic = link_compiler.search(url.lower())
+path = 'Scripts\\' + topic.group().replace('_', ' ') + '.txt'
 if topic is not None:
 	url = "https://www.ted.com/talks/" + topic.group().replace(' ', '_') + "/transcript"
 	print(url)
@@ -22,10 +23,11 @@ if topic is not None:
 		lines = line_compiler.findall(str(tag))
 		result.append(' '.join(lines).replace('\n', ''))
 
-	with open('result_by_RegExp.txt', 'w', encoding='UTF-16') as f:
+	with open(path, 'w', encoding='UTF-16') as f:
 		f.write('\n\n'.join(result).replace('\t', ''))
-		with open('result_by_RegExp.txt', 'r', encoding='UTF-16') as r:
-			print(r.read())
+		print('Script is saved at .\\' + path)
+		#with open(path, 'r', encoding='UTF-16') as r:
+		#	print(r.read())
 else:
 	print('Input is not correct')
 #content > div > div:nth-child(4) > div.p\:2.p-t\:4\@md > section`
